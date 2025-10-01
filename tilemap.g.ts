@@ -14,11 +14,13 @@ namespace myTiles {
     export const transparency16 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile6 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile7 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
             case "map":
-            case "map1":return tiles.createTilemap(hex`1000100000000000000000000000000000000000000000000000000001000000000000000000000000000002020000000000000000000000000000000100000000000000000000000000000004040500000000000000000000000000010000000000000000000000000000000200000000000000000000000000050203000000000000000000000000000000020000000000000000000000000003030102020100000000000000000000020000000000000000000000000000000400000000000000000000000000000004050000000000000000000000000000030000000000000000000000000000000200000000000000000000000000000001000000000000000000`, img`
+            case "map1":return tiles.createTilemap(hex`1000100000000000000000000600000000000000000000000000000001000000000000000000000000000002020000000000000000000000000000000100000000000000000000000000000004040500000000000000000000000000010000000000000000000000000000000200000000000000000000000000050203000000000000000000000000000000020000000000000000000000000003030102020100000000000000000000020000000000000000000000000000000400000000000000000000000000000004050000000000000000000000000000030000000000000000000000000000000200000000000000000000000000000007000000000000000000`, img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -35,7 +37,7 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-`, [myTiles.transparency16,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5], TileScale.Sixteen);
+`, [myTiles.transparency16,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7], TileScale.Sixteen);
         }
         return null;
     })
@@ -55,6 +57,8 @@ namespace myTiles {
             case "transparency16":return transparency16;
             case "arrivée":
             case "tile6":return tile6;
+            case "depart":
+            case "tile7":return tile7;
         }
         return null;
     })

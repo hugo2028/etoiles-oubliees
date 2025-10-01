@@ -24,22 +24,22 @@ namespace myImages {
 `;
             case "image1":
             case "pion":return img`
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 2 2 5 2 2 2 2 5 5 2 2 2 2 
-2 2 2 2 5 5 5 5 5 5 5 5 5 2 2 2 
-2 2 2 5 5 4 4 4 5 5 4 5 5 2 2 2 
-2 2 2 2 5 4 4 4 4 4 4 5 5 5 2 2 
-2 2 2 2 4 4 4 4 4 4 4 4 2 2 2 2 
-2 2 2 2 4 4 f 4 4 f 4 4 2 2 2 2 
-2 2 2 2 4 4 4 4 4 4 4 4 2 2 2 2 
-2 2 2 2 4 4 4 f f f 4 2 2 2 2 2 
-2 2 2 2 2 4 4 4 4 4 4 4 2 2 2 2 
-2 2 2 2 2 2 2 4 4 4 2 2 2 2 2 2 
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b 5 b b b b 5 5 b b b b 
+b b b b 5 5 5 5 5 5 5 5 5 b b b 
+b b b 5 5 4 4 4 5 5 4 5 5 b b b 
+b b b b 5 4 4 4 4 4 4 5 5 5 b b 
+b b b b 4 4 4 4 4 4 4 4 b b b b 
+b b b b 4 4 f 4 4 f 4 4 b b b b 
+b b b b 4 4 4 4 4 4 4 4 b b b b 
+b b b b 4 4 4 f f f 4 b b b b b 
+b b b b b 4 4 4 4 4 4 4 b b b b 
+b b b b b b b 4 4 4 b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
+b b b b b b b b b b b b b b b b 
 `;
         }
         return null;

@@ -11,13 +11,13 @@ namespace myTiles {
 
     helpers._registerFactory("tile", function(name: string) {
         switch(helpers.stringTrim(name)) {
-            case "myTile":
+            case "vert":
             case "tile1":return tile1;
-            case "myTile0":
+            case "jaune":
             case "tile2":return tile2;
-            case "myTile1":
+            case "rouge":
             case "tile3":return tile3;
-            case "myTile2":
+            case "bleu":
             case "tile4":return tile4;
         }
         return null;

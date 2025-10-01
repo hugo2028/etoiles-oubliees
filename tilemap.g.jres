@@ -23,6 +23,12 @@
         "tilemapTile": true,
         "displayName": "bleu"
     },
+    "tile5": {
+        "data": "hwQQABAAAAAREREREREREREREREREREREREREREREREREf///x8RERHx/////xEREfH/////ERER8f////8RERHx/////xEREfH/////ERER8f////8RERHx/////xERERH///8fEREREREREREREREREREREREREREREREREREREREREREREQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "trou noir"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",

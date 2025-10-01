@@ -1,87 +1,66 @@
-# --- Plateau de l’oie prototype ---
+@namespace
+class SpriteKind:
+    case_verte = SpriteKind.create()
 
-joueur = sprites.create(img("""
-    . . . . . . . . 
-    . . f f f f . . 
-    . f f 2 2 f f . 
-    f f 2 2 2 2 f f 
-    f f 2 2 2 2 f f 
-    . f f 2 2 f f . 
-    . . f f f f . . 
-    . . . . . . . . 
-"""), SpriteKind.player)
-
-tiles.set_tilemap(tilemap("map"))
-
-# Placer le joueur sur la tuile départ
-tiles.place_on_random_tile(joueur, assets.tile("depart"))
-
-# --- Questions par couleur ---
-# On n’utilise pas dict + string methods, juste if/else simples
-
-def poser_question_vert():
-    reponse = game.ask_for_string("2 + 2 = ?")
-    if reponse == "4":
-        game.splash("Bonne réponse ! Avance")
-        joueur.x = joueur.x + 16
+def on_overlap_tile(sprite, location):
+    print("Donne moi la spécialité d'Occitanie")
+    if game.ask_for_string("") == "Cassoulet":
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(10, 12))
     else:
-        game.splash("Mauvaise réponse ! Recule")
-        joueur.x = joueur.x - 16
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        myTile
+        """),
+    on_overlap_tile)
 
-def poser_question_jaune():
-    reponse = game.ask_for_string("Capitale de la France ?")
-    if reponse == "paris" or reponse == "Paris":
-        game.splash("Bonne réponse ! Avance")
-        joueur.x = joueur.x + 16
+def on_overlap_tile2(sprite2, location2):
+    print("Quel est la capitale de la France")
+    if game.ask_for_string("") == "Paris":
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 13))
     else:
-        game.splash("Mauvaise réponse ! Recule")
-        joueur.x = joueur.x - 16
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        rouge
+        """),
+    on_overlap_tile2)
 
-def poser_question_rouge():
-    reponse = game.ask_for_string("3 * 3 = ?")
-    if reponse == "9":
-        game.splash("Bonne réponse ! Avance")
-        joueur.x = joueur.x + 16
+def on_overlap_tile3(sprite3, location3):
+    print("Dans quel pays les émeutes de Stonewall (1969) ont-elles marqué un tournant pour les droits LGBTQ+ ?")
+    tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        trou noir
+        """),
+    on_overlap_tile3)
+
+def on_overlap_tile4(sprite4, location4):
+    print("Dans quel pays les émeutes de Stonewall (1969) ont-elles marqué un tournant pour les droits LGBTQ+ ?")
+    if game.ask_for_string("") == "Etats-Unis":
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 13))
     else:
-        game.splash("Mauvaise réponse ! Recule")
-        joueur.x = joueur.x - 16
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        vert
+        """),
+    on_overlap_tile4)
 
-def poser_question_bleu():
-    reponse = game.ask_for_string("Couleur du ciel ?")
-    if reponse == "bleu" or reponse == "Bleu":
-        game.splash("Bonne réponse ! Avance")
-        joueur.x = joueur.x + 16
-    else:
-        game.splash("Mauvaise réponse ! Recule")
-        joueur.x = joueur.x - 16
+mySprite: Sprite = None
+tiles.set_wall_at(tiles.get_tile_location(0, 0), True)
+mySprite = sprites.create(assets.image("""
+    pion
+    """), SpriteKind.player)
+mySprite.start_effect(effects.spray)
+tiles.set_current_tilemap(tilemap("""
+    map
+    """))
+mySprite.z = 100
+scene.camera_follow_sprite(mySprite)
+tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
 
-# --- Gestion des cases spéciales ---
-def sur_case_vert(sprite, location):
-    poser_question_vert()
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseVert"), sur_case_vert)
-
-def sur_case_jaune(sprite, location):
-    poser_question_jaune()
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseJaune"), sur_case_jaune)
-
-def sur_case_rouge(sprite, location):
-    poser_question_rouge()
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseRouge"), sur_case_rouge)
-
-def sur_case_bleu(sprite, location):
-    poser_question_bleu()
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseBleu"), sur_case_bleu)
-
-def sur_case_trou(sprite, location):
-    game.splash("Trou noir ! Retour au départ")
-    tiles.place_on_random_tile(joueur, assets.tile("depart"))
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseTrou"), sur_case_trou)
-
-def sur_case_arrivee(sprite, location):
-    game.over(True, effects.confetti)
-scene.on_overlap_tile(SpriteKind.player, assets.tile("arrivee"), sur_case_arrivee)
-
-# --- Déplacement simple avec A ---
-def avancer():
-    joueur.x = joueur.x + 16
-controller.A.on_event(ControllerButtonEvent.PRESSED, avancer)
+def on_update_interval():
+    controller.move_sprite(mySprite)
+    print("")
+game.on_update_interval(500, on_update_interval)

@@ -1,65 +1,66 @@
-# --- Plateau de jeu de l’oie prototype ---
+@namespace
+class SpriteKind:
+    case_verte = SpriteKind.create()
 
-# Création du pion joueur
-joueur = sprites.create(img("""
-    . . . . . . . . 
-    . . f f f f . . 
-    . f f 2 2 f f . 
-    f f 2 2 2 2 f f 
-    f f 2 2 2 2 f f 
-    . f f 2 2 f f . 
-    . . f f f f . . 
-    . . . . . . . . 
-"""), SpriteKind.player)
-
-# Charger ton plateau (dessiné dans l’éditeur)
-tiles.set_tilemap(tilemap("map"))
-
-# Placer le joueur sur la tuile départ
-tiles.place_on_random_tile(joueur, assets.tile("depart"))
-
-# --- Définir les questions pour les couleurs ---
-questions = {
-    "caseVert": {"q": "2 + 2 = ?", "rep": "4"},
-    "caseJaune": {"q": "Capitale de la France ?", "rep": "paris"},
-    "caseRouge": {"q": "3 * 3 = ?", "rep": "9"},
-    "caseBleu": {"q": "Couleur du ciel ?", "rep": "bleu"}
-}
-
-# Fonction pour poser une question
-def poser_question(nomCase: str):
-    q = questions[nomCase]
-    reponse = game.ask_for_string(q["q"])
-    if reponse.lower().strip() == q["rep"]:
-        game.splash("Bonne réponse ! Avance")
-        joueur.x += 16
+def on_overlap_tile(sprite, location):
+    print("Donne moi la spécialité d'Occitanie")
+    if game.ask_for_string("") == "Cassoulet":
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(10, 12))
     else:
-        game.splash("Mauvaise réponse ! Recule")
-        joueur.x -= 16
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        myTile
+        """),
+    on_overlap_tile)
 
-# --- Gestion des cases spéciales ---
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseVert"),
-    lambda sprite, location: poser_question("caseVert"))
+def on_overlap_tile2(sprite2, location2):
+    print("Quel est la capitale de la France")
+    if game.ask_for_string("") == "Paris":
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 13))
+    else:
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        rouge
+        """),
+    on_overlap_tile2)
 
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseJaune"),
-    lambda sprite, location: poser_question("caseJaune"))
+def on_overlap_tile3(sprite3, location3):
+    print("Dans quel pays les émeutes de Stonewall (1969) ont-elles marqué un tournant pour les droits LGBTQ+ ?")
+    tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        trou noir
+        """),
+    on_overlap_tile3)
 
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseRouge"),
-    lambda sprite, location: poser_question("caseRouge"))
+def on_overlap_tile4(sprite4, location4):
+    print("Dans quel pays les émeutes de Stonewall (1969) ont-elles marqué un tournant pour les droits LGBTQ+ ?")
+    if game.ask_for_string("") == "Etats-Unis":
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 13))
+    else:
+        tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
+        vert
+        """),
+    on_overlap_tile4)
 
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseBleu"),
-    lambda sprite, location: poser_question("caseBleu"))
+mySprite: Sprite = None
+tiles.set_wall_at(tiles.get_tile_location(0, 0), True)
+mySprite = sprites.create(assets.image("""
+    pion
+    """), SpriteKind.player)
+mySprite.start_effect(effects.spray)
+tiles.set_current_tilemap(tilemap("""
+    map
+    """))
+mySprite.z = 100
+scene.camera_follow_sprite(mySprite)
+tiles.place_on_tile(mySprite, tiles.get_tile_location(6, 15))
 
-scene.on_overlap_tile(SpriteKind.player, assets.tile("caseTrou"),
-    lambda sprite, location: (
-        game.splash("Trou noir ! Retour au départ"),
-        tiles.place_on_random_tile(joueur, assets.tile("depart"))
-    )
-)
-
-scene.on_overlap_tile(SpriteKind.player, assets.tile("arrivee"),
-    lambda sprite, location: game.over(True, effects.confetti)
-)
-
-# --- Déplacement simple avec A ---
-controller.A.on_event(ControllerButtonEvent.PRESSED, lambda: joueur.x += 16)
+def on_update_interval():
+    controller.move_sprite(mySprite)
+    print("")
+game.on_update_interval(500, on_update_interval)
